@@ -64,8 +64,8 @@ else{ ?>
 					  			<span class="li_news"></span>
                                 <?php 
                    
-$rt = mysql_query("SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and status is null");
-$num1 = mysql_num_rows($rt);
+$rt = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and status is null");
+$num1 = mysqli_num_rows($rt);
 {?>
 					  			<h3><?php echo htmlentities($num1);?></h3>
                   			</div>
@@ -79,8 +79,8 @@ $num1 = mysql_num_rows($rt);
                   <span class="li_news"></span>
                     <?php 
   $status="in Process";                   
-$rt = mysql_query("SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and  status='$status'");
-$num1 = mysql_num_rows($rt);
+$rt = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and  status='$status'");
+$num1 = mysqli_num_rows($rt);
 {?>
                   <h3><?php echo htmlentities($num1);?></h3>
                         </div>
@@ -93,8 +93,8 @@ $num1 = mysql_num_rows($rt);
                   <span class="li_news"></span>
                        <?php 
   $status="closed";                   
-$rt = mysql_query("SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and  status='$status'");
-$num1 = mysql_num_rows($rt);
+$rt = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM tblcomplaints where userId='".$_SESSION['id']."' and  status='$status'");
+$num1 = mysqli_num_rows($rt);
 {?>
                   <h3><?php echo htmlentities($num1);?></h3>
                         </div>
