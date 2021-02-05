@@ -58,8 +58,8 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 									<tbody>
 
 <?php $st='closed';
-$query=mysql_query("select tblcomplaints.*,users.fullName as name,category.categoryName as catname from tblcomplaints join users on users.id=tblcomplaints.userId join category on category.id=tblcomplaints.category where tblcomplaints.complaintNumber='".$_GET['cid']."'");
-while($row=mysql_fetch_array($query))
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "select tblcomplaints.*,users.fullName as name,category.categoryName as catname from tblcomplaints join users on users.id=tblcomplaints.userId join category on category.id=tblcomplaints.category where tblcomplaints.complaintNumber='".$_GET['cid']."'");
+while($row=mysqli_fetch_array($query))
 {
 
 ?>									
@@ -109,8 +109,8 @@ else{?>
 <a href="complaintdocs/<?php echo htmlentities($row['complaintFile']);?>" ?> View File</a>
 <?php } ?></td>
 </tr>
-<?php $ret=mysql_query("select complaintremark.remark as remark,complaintremark.status as sstatus,complaintremark.remarkDate as rdate from complaintremark join tblcomplaints on tblcomplaints.complaintNumber=complaintremark.complaintNumber where complaintremark.complaintNumber='".$_GET['cid']."'");
-while($rw=mysql_fetch_array($ret))
+<?php $ret=mysqli_query($GLOBALS["___mysqli_ston"], "select complaintremark.remark as remark,complaintremark.status as sstatus,complaintremark.remarkDate as rdate from complaintremark join tblcomplaints on tblcomplaints.complaintNumber=complaintremark.complaintNumber where complaintremark.complaintNumber='".$_GET['cid']."'");
+while($rw=mysqli_fetch_array($ret))
 {
 ?>
 <tr>
