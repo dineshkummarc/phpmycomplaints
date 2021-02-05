@@ -16,7 +16,7 @@ if(isset($_POST['submit']))
 	$category=$_POST['category'];
 	$subcat=$_POST['subcategory'];
 	$id=intval($_GET['id']);
-$sql=mysql_query("update subcategory set categoryid='$category',subcategory='$subcat',updationDate='$currentTime' where id='$id'");
+$sql=mysqli_query($GLOBALS["___mysqli_ston"], "update subcategory set categoryid='$category',subcategory='$subcat',updationDate='$currentTime' where id='$id'");
 $_SESSION['msg']="Category Updated !!";
 
 }
@@ -64,8 +64,8 @@ $_SESSION['msg']="Category Updated !!";
 			<form class="form-horizontal row-fluid" name="Category" method="post" >
 <?php
 $id=intval($_GET['id']);
-$query=mysql_query("select category.id,category.categoryName,subcategory.subcategory from subcategory join category on category.id=subcategory.categoryid where subcategory.id='$id'");
-while($row=mysql_fetch_array($query))
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "select category.id,category.categoryName,subcategory.subcategory from subcategory join category on category.id=subcategory.categoryid where subcategory.id='$id'");
+while($row=mysqli_fetch_array($query))
 {
 ?>		
 
@@ -74,8 +74,8 @@ while($row=mysql_fetch_array($query))
 <div class="controls">
 <select name="category" class="span8 tip" required>
 <option value="<?php echo htmlentities($row['id']);?>"><?php echo htmlentities($catname=$row['categoryName']);?></option>
-<?php $ret=mysql_query("select * from category");
-while($result=mysql_fetch_array($ret))
+<?php $ret=mysqli_query($GLOBALS["___mysqli_ston"], "select * from category");
+while($result=mysqli_fetch_array($ret))
 {
 	$cat=$result['categoryName'];
 if($catname=$cat)
