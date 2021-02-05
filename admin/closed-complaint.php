@@ -71,8 +71,8 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 <tbody>
 <?php 
 $st='closed';
-$query=mysql_query("select tblcomplaints.*,users.fullName as name from tblcomplaints join users on users.id=tblcomplaints.userId where tblcomplaints.status='$st'");
-while($row=mysql_fetch_array($query))
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "select tblcomplaints.*,users.fullName as name from tblcomplaints join users on users.id=tblcomplaints.userId where tblcomplaints.status='$st'");
+while($row=mysqli_fetch_array($query))
 {
 ?>										
 										<tr>
