@@ -30,12 +30,12 @@
 	 */
 	
 	/* 
-	 * MySQL connection
+	 * mysql connection
 	 */
-	$gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
+	$gaSql['link'] =  ($GLOBALS["___mysqli_ston"] = mysqli_connect( $gaSql['server'],  $gaSql['user'],  $gaSql['password']  )) or
 		die( 'Could not open connection to server' );
 	
-	mysql_select_db( $gaSql['db'], $gaSql['link'] ) or 
+	mysqli_select_db( $gaSql['link'] , $gaSql['db']) or 
 		die( 'Could not select database '. $gaSql['db'] );
 	
 	
@@ -45,8 +45,8 @@
 	$sLimit = "";
 	if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
 	{
-		$sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
-			mysql_real_escape_string( $_GET['iDisplayLength'] );
+		$sLimit = "LIMIT ".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['iDisplayStart'] ).", ".
+			mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['iDisplayLength'] );
 	}
 	
 	
@@ -62,7 +62,7 @@
 			if ( $_GET[ 'bSortable_'.intval($_GET['iSortCol_'.$i]) ] == "true" )
 			{
 				$sOrder .= $aColumns[ intval( $_GET['iSortCol_'.$i] ) ]."
-				 	".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", ";
+				 	".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSortDir_'.$i] ) .", ";
 			}
 		}
 		
@@ -78,7 +78,7 @@
 	 * Filtering
 	 * NOTE this does not match the built-in DataTables filtering which does it
 	 * word by word on any field. It's possible to do here, but concerned about efficiency
-	 * on very large tables, and MySQL's regex functionality is very limited
+	 * on very large tables, and mysql's regex functionality is very limited
 	 */
 	$sWhere = "";
 	if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" )
@@ -86,7 +86,7 @@
 		$sWhere = "WHERE (";
 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
 		{
-			$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ";
+			$sWhere .= $aColumns[$i]." LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' OR ";
 		}
 		$sWhere = substr_replace( $sWhere, "", -3 );
 		$sWhere .= ')';
@@ -105,7 +105,7 @@
 			{
 				$sWhere .= " AND ";
 			}
-			$sWhere .= $aColumns[$i]." LIKE '%".mysql_real_escape_string($_GET['sSearch_'.$i])."%' ";
+			$sWhere .= $aColumns[$i]." LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['sSearch_'.$i])."%' ";
 		}
 	}
 	
@@ -121,14 +121,14 @@
 		$sOrder
 		$sLimit
 	";
-	$rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
+	$rResult = mysqli_query( $gaSql['link'] ,  $sQuery) or die(mysqli_error($GLOBALS["___mysqli_ston"]));
 	
 	/* Data set length after filtering */
 	$sQuery = "
 		SELECT FOUND_ROWS()
 	";
-	$rResultFilterTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
-	$aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+	$rResultFilterTotal = mysqli_query( $gaSql['link'] ,  $sQuery) or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+	$aResultFilterTotal = mysqli_fetch_array($rResultFilterTotal);
 	$iFilteredTotal = $aResultFilterTotal[0];
 	
 	/* Total data set length */
@@ -136,8 +136,8 @@
 		SELECT COUNT(".$sIndexColumn.")
 		FROM   $sTable
 	";
-	$rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
-	$aResultTotal = mysql_fetch_array($rResultTotal);
+	$rResultTotal = mysqli_query( $gaSql['link'] ,  $sQuery) or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+	$aResultTotal = mysqli_fetch_array($rResultTotal);
 	$iTotal = $aResultTotal[0];
 	
 	
@@ -151,7 +151,7 @@
 		"aaData" => array()
 	);
 	
-	while ( $aRow = mysql_fetch_array( $rResult ) )
+	while ( $aRow = mysqli_fetch_array( $rResult ) )
 	{
 		$row = array();
 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
