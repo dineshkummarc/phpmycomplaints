@@ -22,10 +22,10 @@ $compfile=$_FILES["compfile"]["name"];
 
 
 move_uploaded_file($_FILES["compfile"]["tmp_name"],"complaintdocs/".$_FILES["compfile"]["name"]);
-$query=mysql_query("insert into tblcomplaints(userId,category,subcategory,complaintType,state,noc,complaintDetails,complaintFile) values('$uid','$category','$subcat','$complaintype','$state','$noc','$complaintdetials','$compfile')");
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "insert into tblcomplaints(userId,category,subcategory,complaintType,state,noc,complaintDetails,complaintFile) values('$uid','$category','$subcat','$complaintype','$state','$noc','$complaintdetials','$compfile')");
 // code for show complaint number
-$sql=mysql_query("select complaintNumber from tblcomplaints  order by complaintNumber desc limit 1");
-while($row=mysql_fetch_array($sql))
+$sql=mysqli_query($GLOBALS["___mysqli_ston"], "select complaintNumber from tblcomplaints  order by complaintNumber desc limit 1");
+while($row=mysqli_fetch_array($sql))
 {
  $cmpn=$row['complaintNumber'];
 }
@@ -107,8 +107,8 @@ function getCat(val) {
 <div class="col-sm-4">
 <select name="category" id="category" class="form-control" onChange="getCat(this.value);" required="">
 <option value="">Select Category</option>
-<?php $sql=mysql_query("select id,categoryName from category ");
-while ($rw=mysql_fetch_array($sql)) {
+<?php $sql=mysqli_query($GLOBALS["___mysqli_ston"], "select id,categoryName from category ");
+while ($rw=mysqli_fetch_array($sql)) {
   ?>
   <option value="<?php echo htmlentities($rw['id']);?>"><?php echo htmlentities($rw['categoryName']);?></option>
 <?php
@@ -140,8 +140,8 @@ while ($rw=mysql_fetch_array($sql)) {
 <div class="col-sm-4">
 <select name="state" required="required" class="form-control">
 <option value="">Select State</option>
-<?php $sql=mysql_query("select stateName from state ");
-while ($rw=mysql_fetch_array($sql)) {
+<?php $sql=mysqli_query($GLOBALS["___mysqli_ston"], "select stateName from state ");
+while ($rw=mysqli_fetch_array($sql)) {
   ?>
   <option value="<?php echo htmlentities($rw['stateName']);?>"><?php echo htmlentities($rw['stateName']);?></option>
 <?php
