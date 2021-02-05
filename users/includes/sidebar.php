@@ -4,8 +4,8 @@
               <ul class="sidebar-menu" id="nav-accordion">
               
               	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-                   <?php $query=mysql_query("select fullName from users where userEmail='".$_SESSION['login']."'");
- while($row=mysql_fetch_array($query)) 
+                   <?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select fullName from users where userEmail='".$_SESSION['login']."'");
+ while($row=mysqli_fetch_array($query)) 
  {
  ?> 
               	  <h5 class="centered"><?php echo htmlentities($row['fullName']);?></h5>
