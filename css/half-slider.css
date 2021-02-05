@@ -36,3 +36,8 @@ body {
 footer {
     margin: 50px 0;
 }
+
+.col-lg-12
+{text-align: center; border: 1px solid black;
+}
+
