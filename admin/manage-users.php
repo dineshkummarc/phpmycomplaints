@@ -76,9 +76,9 @@ popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status
 									</thead>
 									<tbody>
 
-<?php $query=mysql_query("select * from users");
+<?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select * from users");
 $cnt=1;
-while($row=mysql_fetch_array($query))
+while($row=mysqli_fetch_array($query))
 {
 ?>									
 										<tr>
