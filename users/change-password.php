@@ -13,11 +13,11 @@ $currentTime = date( 'd-m-Y h:i:s A', time () );
 
 if(isset($_POST['submit']))
 {
-$sql=mysql_query("SELECT password FROM  users where password='".md5($_POST['password'])."' && userEmail='".$_SESSION['login']."'");
-$num=mysql_fetch_array($sql);
+$sql=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT password FROM  users where password='".md5($_POST['password'])."' && userEmail='".$_SESSION['login']."'");
+$num=mysqli_fetch_array($sql);
 if($num>0)
 {
- $con=mysql_query("update users set password='".md5($_POST['newpassword'])."', updationDate='$currentTime' where userEmail='".$_SESSION['login']."'");
+ $con=mysqli_query($GLOBALS["___mysqli_ston"], "update users set password='".md5($_POST['newpassword'])."', updationDate='$currentTime' where userEmail='".$_SESSION['login']."'");
 $successmsg="Password Changed Successfully !!";
 }
 else
