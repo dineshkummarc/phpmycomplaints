@@ -62,8 +62,8 @@ else{
                               </tr>
                               </thead>
                               <tbody>
-  <?php $query=mysql_query("select * from tblcomplaints where userId='".$_SESSION['id']."'");
-while($row=mysql_fetch_array($query))
+  <?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select * from tblcomplaints where userId='".$_SESSION['id']."'");
+while($row=mysqli_fetch_array($query))
 {
   ?>
                               <tr>
