@@ -15,14 +15,14 @@ if(isset($_POST['submit']))
 {
 	$state=$_POST['state'];
 	$description=$_POST['description'];
-$sql=mysql_query("insert into state(stateName,stateDescription) values('$state','$description')");
+$sql=mysqli_query($GLOBALS["___mysqli_ston"], "insert into state(stateName,stateDescription) values('$state','$description')");
 $_SESSION['msg']="State added Successfully !!";
 
 }
 
 if(isset($_GET['del']))
 		  {
-		          mysql_query("delete from state where id = '".$_GET['id']."'");
+		          mysqli_query($GLOBALS["___mysqli_ston"], "delete from state where id = '".$_GET['id']."'");
                   $_SESSION['delmsg']="State deleted !!";
 		  }
 
@@ -119,9 +119,9 @@ if(isset($_GET['del']))
 									</thead>
 									<tbody>
 
-<?php $query=mysql_query("select * from state");
+<?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select * from state");
 $cnt=1;
-while($row=mysql_fetch_array($query))
+while($row=mysqli_fetch_array($query))
 {
 ?>									
 										<tr>
