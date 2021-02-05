@@ -19,7 +19,7 @@ $address=$_POST['address'];
 $state=$_POST['state'];
 $country=$_POST['country'];
 $pincode=$_POST['pincode'];
-$query=mysql_query("update users set fullName='$fname',contactNo='$contactno',address='$address',State='$state',country='$country',pincode='$pincode' where userEmail='".$_SESSION['login']."'");
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "update users set fullName='$fname',contactNo='$contactno',address='$address',State='$state',country='$country',pincode='$pincode' where userEmail='".$_SESSION['login']."'");
 if($query)
 {
 $successmsg="Profile Successfully !!";
@@ -81,8 +81,8 @@ $errormsg="Profile not updated !!";
  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                       <b>Oh snap!</b> </b> <?php echo htmlentities($errormsg);?></div>
                       <?php }?>
- <?php $query=mysql_query("select * from users where userEmail='".$_SESSION['login']."'");
- while($row=mysql_fetch_array($query)) 
+ <?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select * from users where userEmail='".$_SESSION['login']."'");
+ while($row=mysqli_fetch_array($query)) 
  {
  ?>                     
 
@@ -118,8 +118,8 @@ $errormsg="Profile not updated !!";
 <div class="col-sm-4">
 <select name="state" required="required" class="form-control">
 <option value="<?php echo htmlentities($row['State']);?>"><?php echo htmlentities($st=$row['State']);?></option>
-<?php $sql=mysql_query("select stateName from state ");
-while ($rw=mysql_fetch_array($sql)) {
+<?php $sql=mysqli_query($GLOBALS["___mysqli_ston"], "select stateName from state ");
+while ($rw=mysqli_fetch_array($sql)) {
   if($rw['stateName']==$st)
   {
     continue;
