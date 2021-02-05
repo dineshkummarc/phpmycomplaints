@@ -33,8 +33,8 @@ window.print();
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php 
 
-$ret1=mysql_query("select * FROM users where id='".$_GET['uid']."'");
-while($row=mysql_fetch_array($ret1))
+$ret1=mysqli_query($GLOBALS["___mysqli_ston"], "select * FROM users where id='".$_GET['uid']."'");
+while($row=mysqli_fetch_array($ret1))
 {
 ?>
 
