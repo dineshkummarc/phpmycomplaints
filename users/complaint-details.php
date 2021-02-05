@@ -35,8 +35,8 @@ else{ ?>
           	<h3><i class="fa fa-angle-right"></i> Complaint Details</h3>
             <hr />
 
- <?php $query=mysql_query("select tblcomplaints.*,category.categoryName as catname from tblcomplaints join category on category.id=tblcomplaints.category where userId='".$_SESSION['id']."' and complaintNumber='".$_GET['cid']."'");
-while($row=mysql_fetch_array($query))
+ <?php $query=mysqli_query($GLOBALS["___mysqli_ston"], "select tblcomplaints.*,category.categoryName as catname from tblcomplaints join category on category.id=tblcomplaints.category where userId='".$_SESSION['id']."' and complaintNumber='".$_GET['cid']."'");
+while($row=mysqli_fetch_array($query))
 {?>
           	<div class="row mt">
             <label class="col-sm-2 col-sm-2 control-label"><b>Complaint Number : </b></label>
@@ -105,8 +105,8 @@ else{ ?>
 
 
 
-<?php $ret=mysql_query("select complaintremark.remark as remark,complaintremark.status as sstatus,complaintremark.remarkDate as rdate from complaintremark join tblcomplaints on tblcomplaints.complaintNumber=complaintremark.complaintNumber where complaintremark.complaintNumber='".$_GET['cid']."'");
-while($rw=mysql_fetch_array($ret))
+<?php $ret=mysqli_query($GLOBALS["___mysqli_ston"], "select complaintremark.remark as remark,complaintremark.status as sstatus,complaintremark.remarkDate as rdate from complaintremark join tblcomplaints on tblcomplaints.complaintNumber=complaintremark.complaintNumber where complaintremark.complaintNumber='".$_GET['cid']."'");
+while($rw=mysqli_fetch_array($ret))
 {
 ?>
  <div class="row mt">
