@@ -8,7 +8,7 @@ if(isset($_POST['submit']))
 $catcode=$_POST['catcode'];
 $catname=$_POST['catname'];
 $description=$_POST['description'];
-$query=mysql_query("insert into category(categoryCode,categoryName,description) values('$catcode','$catname','$description')");
+$query=mysqli_query($GLOBALS["___mysqli_ston"], "insert into category(categoryCode,categoryName,description) values('$catcode','$catname','$description')");
 if($query)
 {
 	echo "<script>alert('Category created');</script>";
