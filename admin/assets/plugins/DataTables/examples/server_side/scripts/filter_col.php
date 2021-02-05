@@ -1,5 +1,5 @@
 <?php
-  /* MySQL connection */
+  /* mysql connection */
 	include( $_SERVER['DOCUMENT_ROOT']."/datatables/mysql.php" ); /* ;-) */
 	
 	/* 
@@ -13,14 +13,14 @@
 
 	
 	/* 
-	 * MySQL connection
+	 * mysql connection
 	 */
-	if ( ! $gaSql['link'] = mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) )
+	if ( ! $gaSql['link'] = ($GLOBALS["___mysqli_ston"] = mysqli_connect( $gaSql['server'],  $gaSql['user'],  $gaSql['password']  )) )
 	{
 		fatal_error( 'Could not open connection to server' );
 	}
 
-	if ( ! mysql_select_db( $gaSql['db'], $gaSql['link'] ) )
+	if ( ! mysqli_select_db( $gaSql['link'] , $gaSql['db']) )
 	{
 		fatal_error( 'Could not select database ' );
 	}
@@ -39,26 +39,26 @@
 	if ( isset( $_GET['iSortCol_0'] ) )
 	{
 		$sOrder = "ORDER BY  ";
-		for ( $i=0 ; $i<mysql_real_escape_string( $_GET['iSortingCols'] ) ; $i++ )
+		for ( $i=0 ; $i<mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['iSortingCols'] ) ; $i++ )
 		{
-			$sOrder .= fnColumnToField(mysql_real_escape_string( $_GET['iSortCol_'.$i] ))."
-			 	".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", ";
+			$sOrder .= fnColumnToField(mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['iSortCol_'.$i] ))."
+			 	".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSortDir_'.$i] ) .", ";
 		}
 		$sOrder = substr_replace( $sOrder, "", -2 );
 	}
 	
 	/* Filtering - NOTE this does not match the built-in DataTables filtering which does it
 	 * word by word on any field. It's possible to do here, but concerned about efficiency
-	 * on very large tables, and MySQL's regex functionality is very limited
+	 * on very large tables, and mysql's regex functionality is very limited
 	 */
 	$sWhere = "";
 	if ( $_GET['sSearch'] != "" )
 	{
-		$sWhere = "WHERE ( engine LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ".
-		                "browser LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ".
-		                "platform LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ".
-		                "version LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' OR ".
-		                "grade LIKE '%".mysql_real_escape_string( $_GET['sSearch'] )."%' )";
+		$sWhere = "WHERE ( engine LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' OR ".
+		                "browser LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' OR ".
+		                "platform LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' OR ".
+		                "version LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' OR ".
+		                "grade LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch'] )."%' )";
 	}
 	
 	for ( $i=0 ; $i<$_GET['iColumns'] ; $i++ )
@@ -73,7 +73,7 @@
 			{
 				$sWhere .= "WHERE ";
 			}
-			$sWhere .= fnColumnToField($i) ." LIKE '%".mysql_real_escape_string( $_GET['sSearch_'.$i] )."%'";
+			$sWhere .= fnColumnToField($i) ." LIKE '%".mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $_GET['sSearch_'.$i] )."%'";
 		}
 	}
 	
@@ -84,21 +84,21 @@
 		$sOrder
 		$sLimit
 	";
-	$rResult = mysql_query( $sQuery, $gaSql['link'] ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
+	$rResult = mysqli_query( $gaSql['link'] ,  $sQuery) or fatal_error( 'mysql Error: ' . mysqli_errno($GLOBALS["___mysqli_ston"]) );
 	
 	$sQuery = "
 		SELECT FOUND_ROWS()
 	";
-	$rResultFilterTotal = mysql_query( $sQuery, $gaSql['link'] ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
-	$aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+	$rResultFilterTotal = mysqli_query( $gaSql['link'] ,  $sQuery) or fatal_error( 'mysql Error: ' . mysqli_errno($GLOBALS["___mysqli_ston"]) );
+	$aResultFilterTotal = mysqli_fetch_array($rResultFilterTotal);
 	$iFilteredTotal = $aResultFilterTotal[0];
 	
 	$sQuery = "
 		SELECT COUNT(id)
 		FROM   ajax
 	";
-	$rResultTotal = mysql_query( $sQuery, $gaSql['link'] ) or fatal_error( 'MySQL Error: ' . mysql_errno() );
-	$aResultTotal = mysql_fetch_array($rResultTotal);
+	$rResultTotal = mysqli_query( $gaSql['link'] ,  $sQuery) or fatal_error( 'mysql Error: ' . mysqli_errno($GLOBALS["___mysqli_ston"]) );
+	$aResultTotal = mysqli_fetch_array($rResultTotal);
 	$iTotal = $aResultTotal[0];
 	
 	$sOutput = '{';
@@ -106,7 +106,7 @@
 	$sOutput .= '"iTotalRecords": '.$iTotal.', ';
 	$sOutput .= '"iTotalDisplayRecords": '.$iFilteredTotal.', ';
 	$sOutput .= '"aaData": [ ';
-	while ( $aRow = mysql_fetch_array( $rResult ) )
+	while ( $aRow = mysqli_fetch_array( $rResult ) )
 	{
 		$sOutput .= "[";
 		$sOutput .= '"'.str_replace('"', '\"', $aRow['engine']).'",';
